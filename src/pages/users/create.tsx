@@ -12,29 +12,60 @@ import { InputComponent } from '../../components/Form/Input'
 import { SideBar } from '../../components/SideBar'
 import { Header } from '../../components/Header'
 import Link from 'next/link'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm } from 'react-hook-form'
+import { FieldValues, SubmitHandler } from 'react-hook-form/dist/types'
+
+const CreateUserFormSchema = yup.object().shape({
+	name: yup.string().required('Nome Obrigatorio'),
+	email: yup.string().required('Email Obrigatorio').email(),
+	password: yup.string().required('Senha Obrigatorio'),
+	password_confirmation: yup.string().oneOf([null, yup.ref('password')]),
+})
 
 export default function CreateUser() {
+	const { formState, handleSubmit, register } = useForm({
+		resolver: yupResolver(CreateUserFormSchema),
+	})
+	const handleCreateUser: SubmitHandler<FieldValues> = (data, event) => {}
 	return (
 		<Box>
 			<Header />
 			<Flex w="100%" maxW="1480px" my="6" mx="auto" px="6">
 				<SideBar />
-				<Box flex="1" borderRadius={8} bg="gray.800" p={['6', '8']}>
+				<Box
+					as="form"
+					flex="1"
+					onSubmit={handleSubmit(handleCreateUser)}
+					borderRadius={8}
+					bg="gray.800"
+					p={['6', '8']}
+				>
 					<Heading size="lg" fontWeight={'normal'}>
 						Criar usuario
 					</Heading>
 					<Divider my="6" borderColor={'gray.700'} />
 					<VStack spacing={'8'}>
 						<SimpleGrid minChildWidth={'240px'} spacing={['6', '8']} w="100%">
-							<InputComponent name="name" label="Nome Completo" />
-							<InputComponent name="email" type={'email'} label="E-mail" />
+							<InputComponent label="Nome Completo" {...register('name')} />
+							<InputComponent
+								type={'email'}
+								{...register('email')}
+								label="E-mail"
+							/>
 						</SimpleGrid>
 						<SimpleGrid minChildWidth={'240px'} spacing={['6', '8']} w="100%">
-							<InputComponent name="password" type="password" label="Senha" />
 							<InputComponent
+								{...register('password')}
+								type="password"
+								label="Senha"
+							/>
+							<InputComponent
+								{...register('password_confirmation')}
 								name="password_confirmation"
 								type={'password'}
-								label="Comfirmaçao da senha"
+								label="Confirmaçao da senha"
 							/>
 						</SimpleGrid>
 					</VStack>
@@ -45,7 +76,13 @@ export default function CreateUser() {
 									Cancelar
 								</Button>
 							</Link>
-							<Button colorScheme={'pink'}>Salvar</Button>
+							<Button
+								colorScheme={'pink'}
+								type="submit"
+								isLoading={formState.isSubmitting}
+							>
+								Salvar
+							</Button>
 						</HStack>
 					</Flex>
 				</Box>
