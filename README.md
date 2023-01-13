@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<br />
+<div align="center">
+  <img style="margin-top:100px;" src="https://user-images.githubusercontent.com/80908772/212419214-40607703-9785-499b-a313-c50865d4cc55.png"/>
 
-First, run the development server:
+  <h3 align="center">DashGo Plataform</h3>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+  <p align="center">
+    A project developer during React curse Provider by Rocketseat
+    <br />
+  </p>
+</div>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## :arrow_forward: Getting Started
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+To use this project you need to have node install in your machine.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Installation and Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. run "Npm install" to install Dependencies
+2. Start aplication running "Npm run dev"
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 Owerview
+DashGo plataform it's a website where you can control the number of registered users on your blog or something like that. It shows which were the last registrations with graphs for better control of these users. <br/>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## :hammer: Tools
+-[React](https://pt-br.reactjs.org)<br/>
+-[TypeScript](https://www.typescriptlang.org)<br/>
+-[Eslint](https://eslint.org)<br/>
+-[ReactHookForm](https://react-hook-form.com)<br/>
+-[ChakraUI](https://chakra-ui.com)<br/>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## :clipboard: RoadMap
 
-## Deploy on Vercel
+- [x] Ask user to login on plataform
+- [x] Show the latest registred users
+- [x] Show a graph with user quantity
+- [x] Allow the creation of new users
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## :camera: ScreenShots 
+<h1 aling="center">
+  
+  <img style="margin-top:100px;" src="https://user-images.githubusercontent.com/80908772/212416541-aa0f4ba6-ac04-4a92-9147-7917aa5dda3c.png"/>
+  <hr/>
+  <img style="margin-top:10px;" src="https://user-images.githubusercontent.com/80908772/212416544-8cbb617e-a9cf-457d-a1d1-266540fd9b95.png"/>
+  <hr/>
+  <img style="margin-top:10px;" src="https://user-images.githubusercontent.com/80908772/212416545-a7982b6d-46ca-424b-b97c-e1ca4bc85e09.png"/>
+  <hr/>
+	<img style="margin-top:10px;" src="https://user-images.githubusercontent.com/80908772/212416548-5de8dc89-7efd-4e33-841a-fd318b501037.png"/>
+  <hr/>
+</h1>
+<br/>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<a href='#top'>
+:arrow_up: Back to top
+</a>
+
+<hr/>
+
+<footer>
+  <p align="right">
+    Developer by Gabriell Matias
+  </p>
+</footer>
