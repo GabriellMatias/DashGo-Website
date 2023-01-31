@@ -14,13 +14,18 @@ import {
 	Text,
 	useBreakpointValue,
 	Spinner,
+	Link,
 } from '@chakra-ui/react'
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
 import { SideBar } from '../../components/SideBar'
 import { Header } from '../../components/Header'
 import { Pagination } from '../../components/Pagination'
-import Link from 'next/link'
-import { useUsers } from '../../services/Hooks/useUsers'
+import NextLink from 'next/link'
+import { getUsersData, useUsers } from '../../services/Hooks/useUsers'
+import { useState } from 'react'
+import { queryClient } from '../../services/queryClient'
+import { api } from '../../services/api'
+import { GetServerSideProps } from 'next'
 
 export interface UserProps {
 	id: string
@@ -29,13 +34,31 @@ export interface UserProps {
 	createdAt: string
 }
 
-export default function UserList() {
-	const { data, isLoading, error, isFetching } = useUsers()
+export default function UserList({ users }) {
+	const [page, setPage] = useState(1)
+	const { data, isLoading, error, isFetching } = useUsers(page, {
+		initialData: users,
+	})
 
 	const isWideVersion = useBreakpointValue({
 		base: false,
 		lg: true,
 	})
+
+	async function handlePrefetchUser(userId: number) {
+		await queryClient.prefetchQuery(
+			['user', userId],
+			async () => {
+				const response = await api.get(`users/${userId}`)
+				return response.data
+			},
+			{
+				/* impede a tela de fazer outra requisicao a API pelo tempo que voce determinar
+				 */
+				staleTime: 1000 * 60 * 10,
+			},
+		)
+	}
 
 	return (
 		<Box>
@@ -50,7 +73,7 @@ export default function UserList() {
 								<Spinner size={'sm'} color={'gray.500'} ml="4" />
 							)}
 						</Heading>
-						<Link href={'/users/create'} passHref>
+						<NextLink href={'/users/create'} passHref>
 							<Button
 								as="a"
 								size={'sm'}
@@ -60,7 +83,7 @@ export default function UserList() {
 							>
 								Criar Novo
 							</Button>
-						</Link>
+						</NextLink>
 					</Flex>
 
 					{isLoading ? (
@@ -83,7 +106,7 @@ export default function UserList() {
 									</Tr>
 								</Thead>
 								<Tbody>
-									{data!.map((user: UserProps) => {
+									{data!.users.map((user: UserProps) => {
 										return (
 											<Tr key={user.id}>
 												<Td px={['4', '4', '6']}>
@@ -91,7 +114,15 @@ export default function UserList() {
 												</Td>
 												<Td>
 													<Box>
-														<Text fontWeight="bold">{user.name}</Text>
+														<Link
+															color={'purple.400'}
+															onMouseEnter={() =>
+																handlePrefetchUser(Number(user.id))
+															}
+														>
+															<Text fontWeight="bold">{user.name}</Text>
+														</Link>
+
 														<Text fontSize="sm" color={'gray.300'}>
 															{user.email}
 														</Text>
@@ -118,11 +149,20 @@ export default function UserList() {
 									})}
 								</Tbody>
 							</Table>
-							<Pagination />
+							<Pagination
+								totalRegisters={data.totalCount}
+								currentPage={page}
+								onPageChange={setPage}
+							/>
 						</>
 					)}
 				</Box>
 			</Flex>
 		</Box>
 	)
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const { users, totalCount } = await getUsersData(1)
+	return { props: { users } }
 }

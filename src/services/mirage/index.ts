@@ -1,4 +1,10 @@
-import { createServer, Factory, Model, Response } from 'miragejs'
+import {
+	createServer,
+	Factory,
+	Model,
+	Response,
+	ActiveModelSerializer,
+} from 'miragejs'
 import { faker } from '@faker-js/faker'
 
 type User = {
@@ -9,6 +15,9 @@ type User = {
 
 export function makeServer() {
 	const server = createServer({
+		serializers: {
+			application: ActiveModelSerializer,
+		},
 		/* banco de dados ficticio */
 
 		models: {
@@ -31,7 +40,7 @@ export function makeServer() {
 			}),
 		},
 		seeds(server) {
-			server.createList('user', 200)
+			server.createList('user', 10)
 		},
 		routes() {
 			/* namespace e como se fosse uma baseURL */
@@ -52,6 +61,7 @@ export function makeServer() {
 				return new Response(200, { 'x-total-count': String(total) }, { users })
 			})
 			this.post('/users')
+			this.get('/users/:id')
 
 			this.namespace = ''
 			/* faz com que todas chamadas passem pelo mirage */
